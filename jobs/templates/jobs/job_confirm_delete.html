@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Delete job{% endblock %}
+{% block page_class %}narrow{% endblock %}
+{% block content %}
+    <section class="confirm-panel">
+        <p class="eyebrow">This action cannot be undone</p>
+        <h1>Delete this job?</h1>
+        <p class="lead">“{{ object.title }}” at {{ object.company_name }} will be removed.</p>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-actions">
+                <button class="danger" type="submit">Delete job</button>
+                <a class="button secondary" href="{% url 'my_jobs' %}">Keep job</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

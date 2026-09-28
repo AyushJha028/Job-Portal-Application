@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}My applications{% endblock %}
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Your next chapter</p>
+            <h1>My applications</h1>
+            <p>Keep track of roles you have applied for.</p>
+        </div>
+    </section>
+    <section class="job-list" aria-label="Your applications">
+        {% for application in applications %}
+            <article class="job-row">
+                <div>
+                    <h2><a class="job-title-link" href="{% url 'job_detail' application.job.pk %}">{{ application.job.title }}</a></h2>
+                    <p class="job-company">{{ application.job.company_name }} · {{ application.job.location }}</p>
+                </div>
+                <span class="pill">Applied {{ application.date_applied }}</span>
+            </article>
+        {% empty %}
+            <div class="empty-state">You have not applied to any jobs yet.</div>
+        {% endfor %}
+    </section>
+{% endblock %}

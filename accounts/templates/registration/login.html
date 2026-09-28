@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block title %}Log in{% endblock %}
+{% block page_class %}narrow{% endblock %}
+{% block content %}
+    <section class="form-panel">
+        <p class="eyebrow">Welcome back</p>
+        <h1>Log in</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <label class="password-toggle" for="show-password">
+                <input id="show-password" type="checkbox" aria-controls="id_password">
+                Show password
+            </label>
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="form-actions">
+                <button type="submit">Log in</button>
+            </div>
+        </form>
+        <p class="muted">New here? <a class="text-link" href="{% url 'signup' %}">Create an account</a></p>
+    </section>
+    <script>
+        const showPassword = document.getElementById('show-password');
+        const passwordInput = document.getElementById('id_password');
+        showPassword.addEventListener('change', () => {
+            passwordInput.type = showPassword.checked ? 'text' : 'password';
+        });
+    </script>
+{% endblock %}

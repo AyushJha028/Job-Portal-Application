@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}Edit job{% else %}Post a job{% endif %}{% endblock %}
+{% block page_class %}narrow{% endblock %}
+{% block content %}
+    <section class="form-panel">
+        <p class="eyebrow">For teams and employers</p>
+        <h1>{% if object %}Edit this role{% else %}Share an opportunity{% endif %}</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="form-actions">
+                <button type="submit">Save job</button>
+                <a class="button secondary" href="{% url 'job' %}">Cancel</a>
+            </div>
+        </form>
+    </section>
+{% endblock %}

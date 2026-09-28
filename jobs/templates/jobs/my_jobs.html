@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block title %}My jobs{% endblock %}
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Employer workspace</p>
+            <h1>My jobs</h1>
+            <p>Manage the opportunities you have shared with the community.</p>
+        </div>
+        <a class="button" href="{% url 'job_create' %}">Post a job</a>
+    </section>
+    <section class="job-list" aria-label="Your job postings">
+        {% for job in jobs %}
+            <article class="job-row">
+                <div>
+                    <h2><a class="job-title-link" href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
+                    <p class="job-company">{{ job.company_name }} · {{ job.location }}</p>
+                </div>
+                <div class="inline-actions">
+                    <a class="button secondary" href="{% url 'job_update' job.pk %}">Edit</a>
+                    <a class="button danger" href="{% url 'job_delete' job.pk %}">Delete</a>
+                </div>
+            </article>
+        {% empty %}
+            <div class="empty-state">You have not posted any jobs yet.</div>
+        {% endfor %}
+    </section>
+{% endblock %}

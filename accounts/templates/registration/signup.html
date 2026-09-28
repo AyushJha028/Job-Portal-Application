@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}Create an account{% endblock %}
+{% block page_class %}narrow{% endblock %}
+{% block content %}
+	<section class="form-panel">
+		<p class="eyebrow">Make your next move</p>
+		<h1>Create an account</h1>
+		<form method="post">
+			{% csrf_token %}
+			{{ form.as_p }}
+			<div class="form-actions">
+				<button type="submit">Create account</button>
+			</div>
+		</form>
+		<p class="muted">Already registered? <a class="text-link" href="{% url 'login' %}">Log in</a></p>
+	</section>
+{% endblock %}

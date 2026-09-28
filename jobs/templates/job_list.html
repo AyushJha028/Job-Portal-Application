@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% block title %}Find your next move{% endblock %}
+{% block content %}
+    <section class="page-heading">
+        <div>
+            <p class="eyebrow">Good work starts here</p>
+            <h1>Find your next move.</h1>
+            <p>Thoughtful opportunities from teams building what comes next.</p>
+        </div>
+        {% if user.is_authenticated and user.role == 'employer' %}
+            <a class="button" href="{% url 'job_create' %}">Post a job</a>
+        {% endif %}
+    </section>
+    <form class="filter-panel" method="get" action="{% url 'job' %}">
+        <div class="filters-grid">
+            <p>{{ filter_form.q.label_tag }}{{ filter_form.q }}</p>
+            <p>{{ filter_form.location.label_tag }}{{ filter_form.location }}</p>
+            <p>{{ filter_form.min_salary.label_tag }}{{ filter_form.min_salary }}</p>
+            <p>{{ filter_form.max_salary.label_tag }}{{ filter_form.max_salary }}</p>
+            <p>{{ filter_form.posted_after.label_tag }}{{ filter_form.posted_after }}</p>
+            <p>{{ filter_form.posted_before.label_tag }}{{ filter_form.posted_before }}</p>
+        </div>
+        <div class="form-actions">
+            <button type="submit">Search jobs</button>
+            <a class="button secondary" href="{% url 'job' %}">Clear filters</a>
+        </div>
+    </form>
+    <section class="job-list" aria-label="Available jobs">
+        {% for job in all_jobs %}
+            <article class="job-row">
+                <div>
+                    <h2><a class="job-title-link" href="{% url 'job_detail' job.pk %}">{{ job.title }}</a></h2>
+                    <p class="job-company">{{ job.company_name }}</p>
+                    <div class="job-meta">
+                        <span class="pill">{{ job.location }}</span>
+                        <span class="pill">Posted {{ job.date_posted }}</span>
+                    </div>
+                </div>
+                <a class="button secondary" href="{% url 'job_detail' job.pk %}">View role</a>
+            </article>
+        {% empty %}
+            <div class="empty-state">No jobs are currently available. Check back soon.</div>
+        {% endfor %}
+    </section>
+{% endblock %}

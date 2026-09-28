@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}{{ job.title }}{% endblock %}
+{% block content %}
+	<article class="detail-panel">
+		<header class="detail-heading">
+			<p class="eyebrow">{{ job.location }} · Posted {{ job.date_posted }}</p>
+			<h1>{{ job.title }}</h1>
+			<p class="lead">{{ job.company_name }}</p>
+			<p class="detail-salary">Salary: {{ job.salary }}</p>
+		</header>
+		<div class="detail-body">{{ job.description }}</div>
+		<div class="inline-actions">
+			{% if user.is_authenticated %}
+				{% if user == job.posted_by %}
+					<a class="button secondary" href="{% url 'job_update' job.pk %}">Edit job</a>
+					<a class="button danger" href="{% url 'job_delete' job.pk %}">Delete job</a>
+				{% elif has_applied %}
+					<span class="pill">Application sent</span>
+				{% else %}
+					<form method="post" action="{% url 'job_apply' job.pk %}">
+						{% csrf_token %}
+						<button type="submit">Apply for this role</button>
+					</form>
+				{% endif %}
+			{% else %}
+				<a class="button" href="{% url 'login' %}?next={% url 'job_detail' job.pk %}">Log in to apply</a>
+			{% endif %}
+			<a class="button secondary" href="{% url 'job' %}">Back to jobs</a>
+		</div>
+	</article>
+{% endblock %}
